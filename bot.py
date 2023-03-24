@@ -1,9 +1,8 @@
-# Invite Link   ->  https://discord.com/api/oauth2/authorize?client_id=1087492543635259483&permissions=1634235578432&scope=bot
-# Token         ->  MTA4NzQ5MjU0MzYzNTI1OTQ4Mw.GkpmlW.X4Bxfr7UDJCL2JH658LPGwpoIaJKsDYDl7HMZA
-
-
+import os
 import discord
 import responses
+from dotenv import load_dotenv
+from pathlib import Path
 
 async def send_message(message, user_message, is_private) :
     try :
@@ -12,10 +11,12 @@ async def send_message(message, user_message, is_private) :
     except Exception as e:
         print(e)
 
-
 def run_discord_bot() :
-    TOKEN = "MTA4NzQ5MjU0MzYzNTI1OTQ4Mw.GkpmlW.X4Bxfr7UDJCL2JH658LPGwpoIaJKsDYDl7HMZA"
-    client = discord.Client()
+    load_dotenv("./Discord_Bots/Bot_Env/tutorialHappyBot.env")
+    TOKEN = os.getenv('DISCORD_TOKEN')
+    
+    intents = discord.Intents.all()
+    client = discord.Client(intents=intents)
 
     @client.event
     async def on_ready():
@@ -31,8 +32,6 @@ def run_discord_bot() :
         channel = str(message.channel)
 
         print(f"{username} said : '{user_message}' ({channel})")
-
-        print(user_message + " MESSAGE")
 
         if user_message[0] == '?':
             user_message = user_message[1:]
